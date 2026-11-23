@@ -106,6 +106,7 @@ test("lacak dengan no. order + 4 digit WA", async ({ page }) => {
   const no = (await page.locator("tbody a.font-mono").first().textContent())!.trim();
   await page.context().clearCookies();
   await page.goto("/lacak");
+  await page.waitForLoadState("networkidle");
   await page.getByRole("tab", { name: "No. order + WA" }).click();
   await page.getByLabel("Nomor order").fill(no);
   await page.getByLabel("4 digit terakhir no WhatsApp").fill("0001");

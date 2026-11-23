@@ -26,8 +26,11 @@ test("halaman login", async ({ page }) => {
 test("halaman lacak publik tanpa login + tab no. order", async ({ page }) => {
   await page.goto("/lacak");
   await expect(page.getByRole("heading", { name: "Lacak pesanan" })).toBeVisible();
-  await page.getByRole("tab", { name: "No. order + WA" }).click();
-  await expect(page.getByLabel("4 digit terakhir no WhatsApp")).toBeVisible();
+  // klik ulang sampai React selesai hidrasi
+  await expect(async () => {
+    await page.getByRole("tab", { name: "No. order + WA" }).click();
+    await expect(page.getByLabel("4 digit terakhir no WhatsApp")).toBeVisible({ timeout: 1000 });
+  }).toPass({ timeout: 10_000 });
 });
 
 test("kode lacak tidak valid → tidak ditemukan", async ({ page }) => {
