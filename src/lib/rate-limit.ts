@@ -13,9 +13,16 @@ export async function clientKey(prefix: string): Promise<string> {
 
 /** true = boleh lanjut. 10 percobaan / 10 menit per IP (default) */
 export async function rateLimit(prefix: string, max = 10, windowSeconds = 600): Promise<boolean> {
-  const { data, error } = await createAdminClient().rpc("rate_limit_hit", {
-    p_key: await clientKey(prefix), p_max: max, p_window_seconds: windowSeconds,
-  });
-  if (error) return true; // jangan kunci customer bila DB bermasalah; lookup tetap aman (kode acak)
-  return data === true;
+  try {
+    const { data, error } = await createAdminClient().rpc("rate_limit_hit", {
+      p_key: await clientKey(prefix), p_max: max, p_window_seconds: windowSeconds,
+    });
+    if (error) throw error;
+    return data === true;
+  } catch (e) {
+    // Jangan kunci customer / tampilkan error 500 bila DB/konfigurasi bermasalah.
+    // Lookup tetap aman: kode lacak acak 32^8 dan fungsi DB hanya bisa dipanggil server.
+    console.error("[rate-limit] dilewati:", (e as Error).message);
+    return true;
+  }
 }
