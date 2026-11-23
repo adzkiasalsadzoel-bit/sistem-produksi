@@ -20,7 +20,7 @@ export function LookupForm() {
       </div>
       {mode === "kode" ? (
         <Field label="Kode lacak (8 karakter)" htmlFor="code" hint="Ada di pesan WhatsApp dari admin">
-          <Input id="code" name="code" required autoCapitalize="characters" autoComplete="off" placeholder="contoh: NP59WBXB" className="font-mono text-lg tracking-widest uppercase" maxLength={12} />
+          <Input id="code" name="code" required autoCapitalize="characters" autoComplete="off" placeholder="NP59WBXB" className="font-mono text-lg tracking-widest uppercase placeholder:normal-case placeholder:tracking-normal" maxLength={12} />
         </Field>
       ) : (
         <>
