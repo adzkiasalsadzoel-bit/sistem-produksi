@@ -1,0 +1,16 @@
+node_modules/
+.next/
+out/
+coverage/
+.env
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+.localstack/
+test-results/
+playwright-report/
+supabase/.temp/
+supabase/.branches/
+# kredensial Google — JANGAN di-commit
+*service-account*.json
+credentials*.json
